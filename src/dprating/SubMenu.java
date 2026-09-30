@@ -147,12 +147,29 @@ public class SubMenu  extends javax.swing.JFrame {
         int y=(int) tk.getScreenSize().getHeight();
         this.setSize(x,y);
         
-                ImageIcon imageIcon1 = new ImageIcon(new ImageIcon(getClass().getResource("/1.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
-                ImageIcon imageIcon2 = new ImageIcon(new ImageIcon(getClass().getResource("/2.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
-                ImageIcon imageIcon3 = new ImageIcon(new ImageIcon(getClass().getResource("/3.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
-                ImageIcon imageIcon4 = new ImageIcon(new ImageIcon(getClass().getResource("/3_55.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
-                ImageIcon imageIcon5 = new ImageIcon(new ImageIcon(getClass().getResource("/44.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
-                ImageIcon imageIcon6 = new ImageIcon(new ImageIcon(getClass().getResource("/5.jpg")).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));
+        java.net.URL u1 = getClass().getResource("/1.jpg");
+        if (u1 == null) u1 = getClass().getResource("/Replica/1.jpg");
+        ImageIcon imageIcon1 = u1 != null ? new ImageIcon(new ImageIcon(u1).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)) : new ImageIcon();
+
+        java.net.URL u2 = getClass().getResource("/2.jpg");
+        if (u2 == null) u2 = getClass().getResource("/Replica/2.jpg");
+        ImageIcon imageIcon2 = u2 != null ? new ImageIcon(new ImageIcon(u2).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)) : new ImageIcon();
+
+        java.net.URL u3 = getClass().getResource("/3.jpg");
+        if (u3 == null) u3 = getClass().getResource("/Replica/3.jpg");
+        ImageIcon imageIcon3 = u3 != null ? new ImageIcon(new ImageIcon(u3).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)) : new ImageIcon();
+
+        java.net.URL u4 = getClass().getResource("/3_55.jpg");
+        if (u4 == null) u4 = getClass().getResource("/Replica/3_55.jpg");
+        ImageIcon imageIcon4 = u4 != null ? new ImageIcon(new ImageIcon(u4).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)) : new ImageIcon();
+
+        java.net.URL u5 = getClass().getResource("/44.jpg");
+        if (u5 == null) u5 = getClass().getResource("/Replica/44.jpg");
+        ImageIcon imageIcon5 = u5 != null ? new ImageIcon(new ImageIcon(u5).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)) : new ImageIcon();
+
+        java.net.URL u6 = getClass().getResource("/5.jpg");
+        if (u6 == null) u6 = getClass().getResource("/Replica/5.jpg");
+        ImageIcon imageIcon6 = u6 != null ? new ImageIcon(new ImageIcon(u6).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT)) : new ImageIcon();
                 
                 first.setIcon(imageIcon1);
                 second.setIcon(imageIcon2);
