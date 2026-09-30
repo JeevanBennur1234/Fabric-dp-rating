@@ -36,7 +36,7 @@ if %errorlevel% neq 0 (
 :found_java
 echo Using Java compiler: %JAVAC%
 
-set CP=src\JARS\ojdbc14.jar;src\JARS\rs2xml.jar;src\JARS\hamcrest-core-1.3.jar;src\JARS\imgscalr-lib-4.2.jar;src\JARS\jcommon-1.0.23.jar;src\JARS\jfreechart-1.0.19.jar;src\JARS\jfreechart-1.0.19-experimental.jar;src\JARS\jfreechart-1.0.19-swt.jar;src\JARS\jfreesvg-2.0.jar;src\JARS\junit-4.11.jar;src\JARS\orsoncharts-1.4-eval-nofx.jar;src\JARS\orsonpdf-1.6-eval.jar;src\JARS\servlet.jar;src\JARS\swtgraphics2d.jar
+set CP=src\JARS\h2-1.4.200.jar;src\JARS\ojdbc14.jar;src\JARS\rs2xml.jar;src\JARS\hamcrest-core-1.3.jar;src\JARS\imgscalr-lib-4.2.jar;src\JARS\jcommon-1.0.23.jar;src\JARS\jfreechart-1.0.19.jar;src\JARS\jfreechart-1.0.19-experimental.jar;src\JARS\jfreechart-1.0.19-swt.jar;src\JARS\jfreesvg-2.0.jar;src\JARS\junit-4.11.jar;src\JARS\orsoncharts-1.4-eval-nofx.jar;src\JARS\orsonpdf-1.6-eval.jar;src\JARS\servlet.jar;src\JARS\swtgraphics2d.jar
 
 echo [1/5] Cleaning build and dist folders...
 if exist build rmdir /s /q build
@@ -71,7 +71,7 @@ echo [5/5] Creating executable JAR (dist\DPRating.jar)...
 (
 echo Manifest-Version: 1.0
 echo Main-Class: dprating.DPRating
-echo Class-Path: lib/ojdbc14.jar lib/rs2xml.jar lib/hamcrest-core-1.3.jar lib/imgscalr-lib-4.2.jar lib/jcommon-1.0.23.jar lib/jfreechart-1.0.19.jar lib/jfreechart-1.0.19-experimental.jar lib/jfreechart-1.0.19-swt.jar lib/jfreesvg-2.0.jar lib/junit-4.11.jar lib/orsoncharts-1.4-eval-nofx.jar lib/orsonpdf-1.6-eval.jar lib/servlet.jar lib/swtgraphics2d.jar
+echo Class-Path: lib/h2-1.4.200.jar lib/ojdbc14.jar lib/rs2xml.jar lib/hamcrest-core-1.3.jar lib/imgscalr-lib-4.2.jar lib/jcommon-1.0.23.jar lib/jfreechart-1.0.19.jar lib/jfreechart-1.0.19-experimental.jar lib/jfreechart-1.0.19-swt.jar lib/jfreesvg-2.0.jar lib/junit-4.11.jar lib/orsoncharts-1.4-eval-nofx.jar lib/orsonpdf-1.6-eval.jar lib/servlet.jar lib/swtgraphics2d.jar
 echo.
 ) > build\manifest_dist.mf
 

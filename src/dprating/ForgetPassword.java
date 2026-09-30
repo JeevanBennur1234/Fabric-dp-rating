@@ -178,22 +178,22 @@ public static ForgetPassword getobj()
             }
             else
                 {
-              
-                         Connection con=DBConnection.getConnection();
-                         Statement stmt=con.createStatement();  
-                         ResultSet rs=stmt.executeQuery("select * from registration");  
+                    Connection con = DBConnection.getConnection();
+                    if (con != null) {
+                        Statement stmt = con.createStatement();  
+                        ResultSet rs = stmt.executeQuery("select * from registration");  
            
-                        while(rs.next())
-                        {
-                
-                            if(Empid.equals(rs.getString(1)))
-                            {
-                                 pass.setText(rs.getString(2));
-                    
-                             }       
-                        }           
+                        while (rs.next()) {
+                            String dbEmp = rs.getString(1);
+                            if (dbEmp != null && Empid != null && Empid.trim().equalsIgnoreCase(dbEmp.trim())) {
+                                pass.setText(rs.getString(2));
+                            }       
+                        }
+                        rs.close();
+                        stmt.close();
                         con.close();            
-                 }
+                    }
+                }
         }catch(Exception e){ System.out.println(e);}
     }
     private void cancleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleActionPerformed

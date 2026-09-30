@@ -311,28 +311,33 @@ public class HomePage extends javax.swing.JFrame {
          try
          {   
             Connection con=DBConnection.getConnection();
+            if (con == null) {
+                System.out.println("Database connection failed (con is null).");
+                return -1;
+            }
             Statement stmt=con.createStatement();  
             ResultSet rs=stmt.executeQuery("select * from registration");  
            
             while(rs.next())
             {
-                
-                if(emp.equals(rs.getString(1)) && pass.equals(rs.getString(2)))
+                String dbEmp = rs.getString(1);
+                String dbPass = rs.getString(2);
+                if(dbEmp != null && dbPass != null && emp.trim().equalsIgnoreCase(dbEmp.trim()) && pass.trim().equals(dbPass.trim()))
                 {
                     count++;
                 }
-                else
-                {
-                   count=count; 
-                }
-                
             }           
+            rs.close();
+            stmt.close();
             con.close();  
             
-  }catch(Exception e){ System.out.println(e);}  
+        }catch(Exception e){ 
+            System.out.println("validateEmp error: " + e);
+            return -1;
+        }  
          
          return count;
- }  
+    }  
     
     public void validatingUser()
     {
@@ -369,6 +374,15 @@ public class HomePage extends javax.swing.JFrame {
                         j.setBounds(center.x - windowWidth / 2, center.y - windowHeight / 2, windowWidth, windowHeight);
                         j.setResizable(false);
                         button3.setEnabled(false);
+                    }
+                    else if(count == -1)
+                    {
+                        JOptionPane.showMessageDialog(frame,
+                        "Could not connect to database.\nPlease check your database setup.",
+                        "Database Connection Problem",
+                        JOptionPane.ERROR_MESSAGE);
+                        username_txt.setText("");
+                        password_txt.setText("");
                     }
                     else
                     {

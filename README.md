@@ -99,8 +99,12 @@ DPRating/
 
 ---
 
-## 6. Portability Notes
+## 6. Portability & Database Notes
 
+- **Universal Database Compatibility**:
+  - The application is configured to connect to **Oracle Database XE** (`jdbc:oracle:thin:@localhost:1521:xe` with user `system` and password `dkte`).
+  - If Oracle is not installed or the service is not currently running (e.g. on a fresh laptop or evaluation PC), the application automatically falls back to an embedded Oracle-compatible database engine in `database/dprating`.
+  - All database tables (`REGISTRATION`, `TESTINGINFORMATION1`, `RESULT`) and the pre-seeded user (`ramesh12 / Arn@157744974`) are automatically initialized, allowing both normal user login and admin features to work seamlessly out-of-the-box without requiring complex Oracle installation.
 - All JAR dependencies use **project-relative paths** (`src/JARS/...`), ensuring the project compiles on any Windows machine without requiring external path configuration.
 - Machine-specific absolute paths from previous developer setups have been completely removed.
 - Resource images are copied into `src/` to guarantee they are packaged directly inside `dist/DPRating.jar`.

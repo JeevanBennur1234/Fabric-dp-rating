@@ -3,6 +3,7 @@ dist/
 nbproject/private/
 *.class
 *.jar
+!src/JARS/*.jar
 nbbuild/
 nbdist/
 .nb-gradle/
