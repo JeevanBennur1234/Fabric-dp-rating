@@ -30,14 +30,29 @@ public class StoreResult {
         try {
             Connection con = DBConnection.getConnection();
             if (con != null) {
-                PreparedStatement ps = con.prepareStatement("insert into result values(?,?)");
-                ps.setInt(1, lot);
-                ps.setFloat(2, st);
+                PreparedStatement checkPs = con.prepareStatement("SELECT count(*) FROM result WHERE LOT_NUM=?");
+                checkPs.setInt(1, lot);
+                java.sql.ResultSet rs = checkPs.executeQuery();
+                boolean exists = rs.next() && rs.getInt(1) > 0;
+                rs.close();
+                checkPs.close();
+
+                PreparedStatement ps;
+                if (exists) {
+                    ps = con.prepareStatement("UPDATE result SET CATEGORY=? WHERE LOT_NUM=?");
+                    ps.setFloat(1, st);
+                    ps.setInt(2, lot);
+                } else {
+                    ps = con.prepareStatement("insert into result values(?,?)");
+                    ps.setInt(1, lot);
+                    ps.setFloat(2, st);
+                }
                 ps.executeUpdate();
+                ps.close();
                 con.close();
             }
         } catch (Exception ex) {
-            System.out.println("Oracle unavailable, saving locally: " + ex);
+            System.out.println("Error saving result: " + ex);
         }
 
         LocalStorage.saveRecord(

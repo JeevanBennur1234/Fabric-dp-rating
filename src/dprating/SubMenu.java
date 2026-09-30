@@ -41,51 +41,57 @@ public class SubMenu  extends javax.swing.JFrame {
       
       public void run()
       {
-       jLabel31.setText("Result:");
+        jLabel31.setText("Result:");
         JFrame frame=new JFrame();
         String path=path_txt.getText();
         String str="Select image...";
-      if(str.equals(path_txt.getText().trim()))  
-      {
+        if(str.equals(path_txt.getText().trim()))  
+        {
             JOptionPane.showMessageDialog(frame,
-        "please browse the image",
-        "Retrival problem",
-        JOptionPane.WARNING_MESSAGE);
-      }
+                "please browse the image",
+                "Retrival problem",
+                JOptionPane.WARNING_MESSAGE);
+        }
         else
-      {
-        try
         {
-           
-             calculate.setEnabled(false);
-             img = ImageIO.read(new File(getpath()));
-            
-		
-            }
-        catch (Exception e)
-        {
-          e.printStackTrace();
-          System.exit(1);
-        }              
-        try
-        {
-            buff = getBufferedImage();
-            if (buff == null)
+            try
             {
+                calculate.setEnabled(false);
+                browse.setEnabled(false);
+                img = ImageIO.read(new File(getpath()));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
                 JOptionPane.showMessageDialog(frame,
-                    "Could not load the image. Try a different image file.",
+                    "Error reading image: " + e.getMessage(),
                     "Image Error",
                     JOptionPane.ERROR_MESSAGE);
+                browse.setEnabled(true);
+                calculate.setEnabled(true);
                 return;
-            }
-                        CannyEdgeDetector detector = new CannyEdgeDetector();
-                        detector.setLowThreshold(1f);
-                        detector.setHighThreshold(2.3f);
-			detector.setSourceImage(buff);
-		
-			detector.process();
-			edges = detector.getEdgesImage();
-		jLabel31.setText("DP RATING :");     
+            }              
+            try
+            {
+                buff = getBufferedImage();
+                if (buff == null)
+                {
+                    JOptionPane.showMessageDialog(frame,
+                        "Could not load the image. Try a different image file.",
+                        "Image Error",
+                        JOptionPane.ERROR_MESSAGE);
+                    browse.setEnabled(true);
+                    calculate.setEnabled(true);
+                    return;
+                }
+                CannyEdgeDetector detector = new CannyEdgeDetector();
+                detector.setLowThreshold(1f);
+                detector.setHighThreshold(2.3f);
+                detector.setSourceImage(buff);
+        
+                detector.process();
+                edges = detector.getEdgesImage();
+                jLabel31.setText("DP RATING :");     
                 CalculateDPValue calc = new CalculateDPValue();
                 calc.calculateRGB(edges);
                 st = calc.category();
@@ -93,16 +99,22 @@ public class SubMenu  extends javax.swing.JFrame {
                 r.setstatus(st);
                 status.setText(String.valueOf(st));
                 r.InsertRseult();
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(frame,
-                "Error processing image: " + e.getMessage(),
-                "Processing Error",
-                JOptionPane.ERROR_MESSAGE);
-        }
             }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(frame,
+                    "Error processing image: " + e.getMessage(),
+                    "Processing Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            finally
+            {
+                // Re-enable browse and calculate buttons after calculation and saving
+                browse.setEnabled(true);
+                calculate.setEnabled(true);
+            }
+        }
       }
     }
     
@@ -118,6 +130,38 @@ public class SubMenu  extends javax.swing.JFrame {
         public SubMenu () {
         initComponents();
         this.setTitle("Dp rating pro");
+
+        javax.swing.JMenuBar menuBar = new javax.swing.JMenuBar();
+        javax.swing.JMenu accountMenu = new javax.swing.JMenu("Account");
+        javax.swing.JMenuItem logoutItem = new javax.swing.JMenuItem("Logout");
+        try {
+            java.net.URL logoutUrl = getClass().getResource("/ui/logout.png");
+            if (logoutUrl != null) logoutItem.setIcon(new javax.swing.ImageIcon(logoutUrl));
+        } catch (Exception ex) {}
+        logoutItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                int confirm = javax.swing.JOptionPane.showConfirmDialog(SubMenu.this, 
+                    "Are you sure you want to log out?", 
+                    "Logout", 
+                    javax.swing.JOptionPane.YES_NO_OPTION);
+                if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+                    SubMenu.this.dispose();
+                }
+            }
+        });
+        accountMenu.add(logoutItem);
+        menuBar.add(accountMenu);
+
+        javax.swing.JMenu testingMenu = new javax.swing.JMenu("Testing");
+        javax.swing.JMenuItem resetItem = new javax.swing.JMenuItem("Reset Sample / Clear Preview");
+        resetItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetTesting();
+            }
+        });
+        testingMenu.add(resetItem);
+        menuBar.add(testingMenu);
+        this.setJMenuBar(menuBar);
         calculate1.setEnabled(true);
         ic=new ImageIcon("progressbar.gif"); 
         progressBar.setVisible(false);
@@ -1361,43 +1405,62 @@ InputStream in=null;
    {
        return buffimag;
    }
+public void resetTesting()
+{
+    path_txt.setText("Select image...");
+    smpl.setIcon(null);
+    smpl.setText("            Preview  here");
+    status.setText("");
+    jLabel31.setText("DP RATING OF FABRIC:");
+    setBufferedImage(null);
+    buff = null;
+    img = null;
+    edges = null;
+    browse.setEnabled(true);
+    calculate.setEnabled(true);
+}
+
 public void selectImage()
 {
-    
     JFrame frame=new JFrame();
-         JFileChooser openFile = new JFileChooser();
+    JFileChooser openFile = new JFileChooser();
          
-              int result= openFile.showOpenDialog(this);
+    int result= openFile.showOpenDialog(this);
               
-                if(result==JFileChooser.CANCEL_OPTION) {}
-                else
-                {
-                    File file=openFile.getSelectedFile();
-                    String name=file.toString();
+    if(result==JFileChooser.CANCEL_OPTION) {}
+    else
+    {
+        File file=openFile.getSelectedFile();
+        if (file == null) return;
+        String name=file.toString();
                     
-                   ImageValidation im=new ImageValidation();
-                    boolean b=im.checkExtension(file);
-                 if(b==false)
-                 {
-                   JOptionPane.showMessageDialog(frame,
-                    "image is not valid",
-                    "Retrival problem",
-                    JOptionPane.ERROR_MESSAGE); 
-                }
-                else
-                {     
-                ImageIcon imageIcon = new ImageIcon(new ImageIcon(name).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));        
-                 in = getClass().getResourceAsStream(name);
-                smpl.setIcon(imageIcon);
-                 path_txt.setText(name);
-                path(name);
-                 browse.setEnabled(false);
-                  File f=new File(name);    
-           BufferedImage bf=ri.resize(f);
-           setBufferedImage(bf);
-           path(name);
-                }
-            }
+        ImageValidation im=new ImageValidation();
+        boolean b=im.checkExtension(file);
+        if(b==false)
+        {
+            JOptionPane.showMessageDialog(frame,
+                "image is not valid",
+                "Retrival problem",
+                JOptionPane.ERROR_MESSAGE); 
+        }
+        else
+        {     
+            ImageIcon imageIcon = new ImageIcon(new ImageIcon(name).getImage().getScaledInstance(200, 200, Image.SCALE_DEFAULT));        
+            in = getClass().getResourceAsStream(name);
+            smpl.setText("");
+            smpl.setIcon(imageIcon);
+            path_txt.setText(name);
+            path(name);
+            browse.setEnabled(true);
+            calculate.setEnabled(true);
+            status.setText("");
+            jLabel31.setText("Result:");
+            File f=new File(name);    
+            BufferedImage bf=ri.resize(f);
+            setBufferedImage(bf);
+            path(name);
+        }
+    }
 }
     
     private void calculateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calculateActionPerformed
@@ -1589,6 +1652,7 @@ public void selectImage()
                             tstr_name.setText(tester_name11);
                              r.setlot(lot_num1);
                              r.setDetails(tester_name11, fabric_name11, view111, finish_type11, datevalue);
+                             resetTesting();
                             
                              if(con != null) con.close();  
               
@@ -1662,7 +1726,13 @@ float as=0.0f;
                     HomePage.username_txt.setText("");
                     HomePage.password_txt.setText("");
                     HomePage.button3.setEnabled(true);
-                    
+                    for (java.awt.Window w : java.awt.Window.getWindows()) {
+                        if (w instanceof HomePage) {
+                            w.setVisible(true);
+                            w.toFront();
+                            w.requestFocus();
+                        }
+                    }
     }//GEN-LAST:event_formWindowClosed
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked

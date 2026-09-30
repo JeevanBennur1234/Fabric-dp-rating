@@ -366,7 +366,13 @@ public class Admin extends javax.swing.JFrame {
     private void cancleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleActionPerformed
         this.dispose();
         empid.setText("");
-        
+        for (java.awt.Window w : java.awt.Window.getWindows()) {
+            if (w instanceof HomePage) {
+                w.setVisible(true);
+                w.toFront();
+                w.requestFocus();
+            }
+        }
     }//GEN-LAST:event_cancleActionPerformed
 public void getHistory1()
 {

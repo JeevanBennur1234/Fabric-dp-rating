@@ -166,107 +166,108 @@ public static UserRegistration getobj()
     }// </editor-fold>//GEN-END:initComponents
     
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-    register(empid.getText(),password.getText(),confirmpass.getText(),f);  
-     empid.setText("");
-     password.setText("");
-     confirmpass.setText("");
-   this.dispose();
-        
+        register(empid.getText(), password.getText(), confirmpass.getText(), f);  
     }//GEN-LAST:event_button1ActionPerformed
 public void register(String empid1,String password1,String confirmpass1,int flag )
 {
     try
     { 
-          SearchEmpId sc=new SearchEmpId();
-         if(flag!=0)
-         {
-                 empid1=empid.getText();
-                 password1=this.password.getText();
-                confirmpass1=this.confirmpass.getText();
-         }
-          int count=sc.search(empid1);
-         JFrame frame = new JFrame("JOptionPane showMessageDialog example");     
+        SearchEmpId sc=new SearchEmpId();
+        if(flag!=0)
+        {
+            empid1=empid.getText();
+            password1=this.password.getText();
+            confirmpass1=this.confirmpass.getText();
+        }
+        empid1 = empid1 != null ? empid1.trim() : "";
+        password1 = password1 != null ? password1.trim() : "";
+        confirmpass1 = confirmpass1 != null ? confirmpass1.trim() : "";
+
+        int count=sc.search(empid1);
+        JFrame frame = new JFrame("JOptionPane showMessageDialog example");     
               
-       if(empid1.equals("")||password1.equals("")||confirmpass1.equals(""))
-       {
-          JOptionPane.showMessageDialog(frame,
-        "All fields are mandatory",
-        "Registration problem",
-        JOptionPane.WARNING_MESSAGE);
-        
-       }
-        else if(empid1.length()<4  || empid1.length()>10)
+        if(empid1.equals("")||password1.equals("")||confirmpass1.equals(""))
         {
-              JOptionPane.showMessageDialog(frame,
-        "Employee id must be less than 10 and greater than 4",
-        "Registration problem",
-        JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(frame,
+                "All fields are mandatory",
+                "Registration problem",
+                JOptionPane.WARNING_MESSAGE);
         }
-       else if(!Pattern.matches("^[a-zA-Z0-9]*+$", empid1))
-       {
-             JOptionPane.showMessageDialog(frame,
-        "please enter valid employee id",
-        "Registration problem",
-        JOptionPane.WARNING_MESSAGE);
-       }
-       else if((password1.length())<8 || (password1.length()>15))
-       {
-             JOptionPane.showMessageDialog(frame,
-        "password must be less than 15 and greater than 8",
-        "Registration problem",
-        JOptionPane.WARNING_MESSAGE);
-       }
-       else if(!Pattern.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", password1))
-       {
-           System.out.println("Please enter strong password");
-              JOptionPane.showMessageDialog(frame,
-        "Enter strong password: '" + password1 + "'.",
-        "registration problem",
-        JOptionPane.WARNING_MESSAGE);
-       }
+        else if(empid1.length()<4 || empid1.length()>10)
+        {
+            JOptionPane.showMessageDialog(frame,
+                "Employee id must be between 4 and 10 characters",
+                "Registration problem",
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else if(!Pattern.matches("^[a-zA-Z0-9_]*+$", empid1))
+        {
+            JOptionPane.showMessageDialog(frame,
+                "Please enter a valid employee id (letters and numbers only)",
+                "Registration problem",
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else if((password1.length())<8 || (password1.length()>15))
+        {
+            JOptionPane.showMessageDialog(frame,
+                "Password must be between 8 and 15 characters",
+                "Registration problem",
+                JOptionPane.WARNING_MESSAGE);
+        }
+        else if(!Pattern.matches("^.*(?=.{8,})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", password1))
+        {
+            System.out.println("Please enter strong password");
+            JOptionPane.showMessageDialog(frame,
+                "Please enter a strong password (containing uppercase, lowercase, number, and special character @#$%^&+=)",
+                "Registration problem",
+                JOptionPane.WARNING_MESSAGE);
+        }
         else if(!password1.equals(confirmpass1))
-       {
-              JOptionPane.showMessageDialog(frame,
-        "password must same as above",
-        "Registration problem",
-        JOptionPane.WARNING_MESSAGE);
-        }
-       
-       
-       else if(count>=1)
         {
-         JOptionPane.showMessageDialog(frame,
-        "User already present",
-        "Registration problem",
-        JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(frame,
+                "Confirm password must match password",
+                "Registration problem",
+                JOptionPane.WARNING_MESSAGE);
         }
-       
+        else if(count>=1)
+        {
+            JOptionPane.showMessageDialog(frame,
+                "User already present with this employee id",
+                "Registration problem",
+                JOptionPane.INFORMATION_MESSAGE);
+        }
         else
         {             
             Connection con=DBConnection.getConnection();
-              
-            PreparedStatement ps=con.prepareStatement(  
-            "insert into registration values(?,?,?)");  
-                        
-            ps.setString(1,empid1);  
-            ps.setString(2,password1);
-            ps.setString(3,confirmpass1);  
-         
-            int i=ps.executeUpdate();  
-            
-
-         JOptionPane.showMessageDialog(frame,
-        "Record inserted sucessfully",
-        "registration Sucessful",
-        JOptionPane.INFORMATION_MESSAGE);
-              
-        empid.setText("");
-        password.setText("");
-        confirmpass.setText("");
-            con.close();  
+            if (con != null) {
+                PreparedStatement ps=con.prepareStatement(  
+                    "insert into registration values(?,?,?)");  
+                            
+                ps.setString(1,empid1);  
+                ps.setString(2,password1);
+                ps.setString(3,confirmpass1);  
              
-    } 
- }catch (Exception e) {e.printStackTrace();}
+                int i=ps.executeUpdate();  
+                ps.close();
+                con.close();
+
+                JOptionPane.showMessageDialog(frame,
+                    "Record inserted successfully",
+                    "Registration Successful",
+                    JOptionPane.INFORMATION_MESSAGE);
+                  
+                empid.setText("");
+                password.setText("");
+                confirmpass.setText("");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(frame,
+                    "Could not connect to database to register user",
+                    "Database Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        } 
+    }catch (Exception e) {e.printStackTrace();}
 }
     
     private void cancleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancleActionPerformed
