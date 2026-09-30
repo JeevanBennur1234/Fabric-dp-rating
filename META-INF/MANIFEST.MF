@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.9.4
+Created-By: 1.8.0_05-b13 (Oracle Corporation)
+Class-Path: lib/ojdbc14.jar lib/rs2xml.jar lib/hamcrest-core-1.3.jar l
+ ib/jfreechart-1.0.19-experimental.jar lib/jfreechart-1.0.19-swt.jar l
+ ib/jfreechart-1.0.19.jar lib/jfreesvg-2.0.jar lib/junit-4.11.jar lib/
+ orsoncharts-1.4-eval-nofx.jar lib/swtgraphics2d.jar lib/ojdbc14.jar l
+ ib/rs2xml.jar lib/hamcrest-core-1.3.jar lib/jcommon-1.0.23.jar lib/jf
+ reechart-1.0.19-swt.jar lib/jfreesvg-2.0.jar lib/orsoncharts-1.4-eval
+ -nofx.jar lib/orsonpdf-1.6-eval.jar lib/servlet.jar lib/hamcrest-core
+ -1.3.jar lib/jcommon-1.0.23.jar lib/jfreechart-1.0.19.jar lib/jfreech
+ art-1.0.19-experimental.jar lib/jfreechart-1.0.19-swt.jar lib/jfreesv
+ g-2.0.jar lib/junit-4.11.jar lib/orsoncharts-1.4-eval-nofx.jar lib/or
+ sonpdf-1.6-eval.jar lib/servlet.jar lib/swtgraphics2d.jar lib/rs2xml.
+ jar lib/ojdbc14.jar lib/imgscalr-lib-4.2.jar lib/hamcrest-core-1.3.ja
+ r lib/jcommon-1.0.23.jar lib/jfreechart-1.0.19-experimental.jar lib/j
+ freechart-1.0.19-swt.jar lib/jfreechart-1.0.19.jar lib/jfreesvg-2.0.j
+ ar lib/junit-4.11.jar lib/orsoncharts-1.4-eval-nofx.jar lib/orsonpdf-
+ 1.6-eval.jar lib/swtgraphics2d.jar lib/imgscalr-lib-4.2.jar lib/hamcr
+ est-core-1.3.jar lib/jcommon-1.0.23.jar lib/jfreechart-1.0.19-experim
+ ental.jar lib/jfreechart-1.0.19-swt.jar lib/jfreechart-1.0.19.jar lib
+ /jfreesvg-2.0.jar lib/junit-4.11.jar lib/ojdbc14.jar lib/orsoncharts-
+ 1.4-eval-nofx.jar lib/orsonpdf-1.6-eval.jar lib/rs2xml.jar lib/servle
+ t.jar lib/swtgraphics2d.jar lib/hamcrest-core-1.3.jar lib/imgscalr-li
+ b-4.2.jar lib/jcommon-1.0.23.jar lib/jfreechart-1.0.19-experimental.j
+ ar lib/jfreechart-1.0.19-swt.jar lib/jfreechart-1.0.19.jar lib/jfrees
+ vg-2.0.jar lib/junit-4.11.jar lib/ojdbc14.jar lib/orsoncharts-1.4-eva
+ l-nofx.jar lib/orsonpdf-1.6-eval.jar lib/rs2xml.jar lib/servlet.jar l
+ ib/swtgraphics2d.jar
+X-COMMENT: Main-Class will be added automatically by build
+Main-Class: dprating.DPRating
+
